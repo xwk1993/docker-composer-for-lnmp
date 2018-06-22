@@ -1,6 +1,6 @@
 version: '0.1-dev'
 services:
-    web:
+    nginx:
         image: nginx:1.12.2-alpine
         restart: always
         ports:
@@ -8,6 +8,7 @@ services:
             - "443:443"                                             # 自定义调整web服务端口
         volumes:
             - /hosts:/hosts                                         # 自定义调整web路径
+            - /data/nginx:/var/log/nginx                            # 自定义调整web日志路径
             - ./nginx/nginx.conf:/etc/nginx/nginx.conf              # 自定义调整nginx配置
             - ./nginx/enable-php.conf:/etc/nginx/enable-php.conf
             - ./nginx/default.conf:/etc/nginx/conf.d/default.conf   # 自定义调整配置
