@@ -16,7 +16,7 @@ RUN apk update \
     && docker-php-ext-install -j"$(getconf _NPROCESSORS_ONLN)" gd \
     && docker-php-ext-configure mcrypt --with-mcrypt \
     && docker-php-ext-install -j"$(getconf _NPROCESSORS_ONLN)" mcrypt \
-    && docker-php-ext-install -j"$(getconf _NPROCESSORS_ONLN)" pdo_mysql mysqli \
+    && docker-php-ext-install -j"$(getconf _NPROCESSORS_ONLN)" pdo_mysql mysqli bcmath \
     && cd /tmp \
     && git clone --depth=1 "git://github.com/phalcon/cphalcon.git" \
     && cd cphalcon/build \
