@@ -63,6 +63,7 @@
             libxml
             mbstring
             mcrypt
+            memcached(v3.0.4)
             mysqli
             mysqlnd
             openssl

@@ -1,16 +1,18 @@
 FROM php:7.1.18-fpm-alpine
 
-ENV BUILD_DEPS='git bash curl g++ make autoconf re2c libtool pcre-dev libmcrypt-dev libxml2-dev freetype-dev libpng-dev libjpeg-turbo-dev' \
-    PHP_EXTENSION_DEPS='libmcrypt freetype libpng libjpeg-turbo'
+ENV BUILD_DEPS='git bash curl g++ make autoconf re2c libtool pcre-dev libmcrypt-dev libxml2-dev freetype-dev libpng-dev libjpeg-turbo-dev libmemcached-dev zlib-dev' \
+    PHP_EXTENSION_DEPS='libmcrypt freetype libpng libjpeg-turbo libmemcached zlib'
 
 COPY ./composer.phar /usr/local/bin/composer
 
-RUN apk update \
+RUN echo -e "https://mirrors.aliyun.com/alpine/v3.7/main\nhttps://mirrors.aliyun.com/alpine/v3.7/community" > /etc/apk/repositories \
+    && apk update \
     && apk add --no-cache $BUILD_DEPS $PHP_EXTENSION_DEPS \
     && docker-php-source extract \
     && pecl -vvv install apcu-5.1.11 && docker-php-ext-enable apcu \
     && pecl -vvv install swoole-2.2.0 && docker-php-ext-enable swoole \
     && pecl -vvv install redis-4.0.2 && docker-php-ext-enable redis \
+    && pecl -vvv install memcached-3.0.4 && docker-php-ext-enable memcached \
     && docker-php-source delete \
     && docker-php-ext-configure gd --with-gd --with-png-dir=/usr/include/ --with-jpeg-dir=/usr/include/ --with-freetype-dir=/usr/include/ \
     && docker-php-ext-install -j"$(getconf _NPROCESSORS_ONLN)" gd \
