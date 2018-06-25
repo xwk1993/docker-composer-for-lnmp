@@ -1,8 +1,10 @@
 version: '0.1-dev'
 services:
     nginx:
-        image: nginx:1.12.2-alpine
-        restart: always
+        image:
+            nginx:1.12.2-alpine
+        restart:
+            always
         ports:
             - "80:80"                                               # 自定义调整web服务端口
             - "443:443"                                             # 自定义调整web服务端口
@@ -15,8 +17,10 @@ services:
         links:
             - php:local-php
     php:
-        build: ./php
-        restart: always
+        build:
+            ./php
+        restart:
+            always
         volumes:
             - /hosts:/hosts                                         # 自定义调整web路径
             - ./php/php.ini:/usr/local/etc/php/php.ini              # 自定义调整php配置
@@ -24,17 +28,23 @@ services:
             - redis:local-redis                                     # 本地调试不能采用127.0.0.1:6379 必须采用local-redis:6379，参考链接：https://stackoverflow.com/questions/42360356/docker-redis-connection-refused
             - mysql:local-mysql                                     # 本地调试不能采用127.0.0.1:3306 必须采用local-mysql:3306
     mysql:
-        image: mysql:5.6.40
-        restart: always
+        image:
+            mysql:5.7.22
+        restart:
+            always
         environment:
             - MYSQL_ROOT_PASSWORD=sql123                # 自定义调整mysql密码
         ports:
             - "3306:3306"                               # 自定义调整mysql端口
         volumes:
             - /data/mysql:/var/lib/mysql                # 自定义调整mysql数据路径
+        command:
+            ['--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']
     redis:
-        image: redis:3.2.11-alpine
-        restart: always
+        image:
+            redis:3.2.11-alpine
+        restart:
+            always
         ports:
             - "6379:6379"                               # 自定义调整redis端口
         volumes:

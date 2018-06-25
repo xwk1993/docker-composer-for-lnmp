@@ -18,11 +18,11 @@
 
     - version
 
-        ​   _5.6.40_
+        ​   _5.7.22_
   
     - image
 
-        ​   _mysql:5.6.40_
+        ​   _mysql:5.7.22_
 
 - redis
 

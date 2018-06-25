@@ -8,9 +8,9 @@ COPY ./composer.phar /usr/local/bin/composer
 RUN apk update \
     && apk add --no-cache $BUILD_DEPS $PHP_EXTENSION_DEPS \
     && docker-php-source extract \
-    && pecl install redis-4.0.2 && docker-php-ext-enable redis \
-    && pecl install swoole-2.2.0 && docker-php-ext-enable swoole \
-    && pecl install apcu-5.1.11 && docker-php-ext-enable apcu \
+    && pecl -vvv install apcu-5.1.11 && docker-php-ext-enable apcu \
+    && pecl -vvv install swoole-2.2.0 && docker-php-ext-enable swoole \
+    && pecl -vvv install redis-4.0.2 && docker-php-ext-enable redis \
     && docker-php-source delete \
     && docker-php-ext-configure gd --with-gd --with-png-dir=/usr/include/ --with-jpeg-dir=/usr/include/ --with-freetype-dir=/usr/include/ \
     && docker-php-ext-install -j"$(getconf _NPROCESSORS_ONLN)" gd \
