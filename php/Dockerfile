@@ -13,6 +13,7 @@ RUN echo -e "https://mirrors.aliyun.com/alpine/v3.7/main\nhttps://mirrors.aliyun
     && pecl -vvv install swoole-2.2.0 && docker-php-ext-enable swoole \
     && pecl -vvv install redis-4.0.2 && docker-php-ext-enable redis \
     && pecl -vvv install memcached-3.0.4 && docker-php-ext-enable memcached \
+    # && pecl -vvv install protobuf-3.6.0 && docker-php-ext-enable protobuf \
     && docker-php-source delete \
     && docker-php-ext-configure gd --with-gd --with-png-dir=/usr/include/ --with-jpeg-dir=/usr/include/ --with-freetype-dir=/usr/include/ \
     && docker-php-ext-install -j"$(getconf _NPROCESSORS_ONLN)" gd \
@@ -24,6 +25,10 @@ RUN echo -e "https://mirrors.aliyun.com/alpine/v3.7/main\nhttps://mirrors.aliyun
     && cd cphalcon/build \
     && ./install \
     && docker-php-ext-enable phalcon \
+    && git clone https://github.com/allegro/php-protobuf.git \
+    && cd php-protobuf \
+    && phpize && ./configure && make -j"$(getconf _NPROCESSORS_ONLN)" && make install \
+    && docker-php-ext-enable protobuf \
     && chmod +x /usr/local/bin/composer \
     && composer config -g repo.packagist composer https://packagist.phpcomposer.com \
     && apk del --no-cache $BUILD_DEPS \

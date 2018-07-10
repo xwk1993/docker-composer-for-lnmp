@@ -74,6 +74,7 @@
             phalcon (v3.4.0)
             Phar
             posix
+            protobuf (v0.12.3)
             readline
             redis (v4.0.2)
             Reflection
