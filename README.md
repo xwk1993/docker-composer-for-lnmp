@@ -59,6 +59,7 @@
             gd
             hash
             iconv
+            ip2region
             json
             libxml
             mbstring
@@ -83,7 +84,7 @@
             SPL
             sqlite3
             standard
-            swoole (v2.2.0)
+            swoole (v4.0.1)
             tokenizer
             xml
             xmlreader
