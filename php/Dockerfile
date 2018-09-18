@@ -4,7 +4,7 @@ ENV BUILD_DEPS='bash curl g++ make autoconf re2c libtool pcre-dev libmcrypt-dev 
     PHP_EXTENSION_DEPS='git libmcrypt freetype libpng libjpeg-turbo libmemcached zlib'
 
 COPY ./composer.phar /usr/local/bin/composer
-COPY ./ext/* /tmp
+COPY ./ext/* /tmp/
 
 RUN echo -e "https://mirrors.aliyun.com/alpine/v3.7/main\nhttps://mirrors.aliyun.com/alpine/v3.7/community" > /etc/apk/repositories \
     && apk update \
