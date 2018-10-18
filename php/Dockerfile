@@ -1,12 +1,12 @@
 FROM php:7.1.18-fpm-alpine
 
-ENV BUILD_DEPS='bash curl g++ make autoconf re2c libtool pcre-dev libmcrypt-dev libxml2-dev freetype-dev libpng-dev libjpeg-turbo-dev libmemcached-dev zlib-dev' \
-    PHP_EXTENSION_DEPS='git libmcrypt freetype libpng libjpeg-turbo libmemcached zlib'
+ENV BUILD_DEPS='bash curl g++ make autoconf re2c' \
+    PHP_EXTENSION_DEPS='git libmcrypt freetype libpng libjpeg-turbo libmemcached zlib libtool pcre-dev libmcrypt-dev libxml2-dev freetype-dev libpng-dev libjpeg-turbo-dev libmemcached-dev zlib-dev yaml-dev'
 
 COPY ./composer.phar /usr/local/bin/composer
 COPY ./ext/* /tmp/
 
-RUN echo -e "https://mirrors.aliyun.com/alpine/v3.7/main\nhttps://mirrors.aliyun.com/alpine/v3.7/community" > /etc/apk/repositories \
+RUN echo -e "https://mirrors.ustc.edu.cn/alpine/latest-stable/main\nhttps://mirrors.ustc.edu.cn/alpine/latest-stable/community" > /etc/apk/repositories \
     && apk update \
     && apk add --no-cache $BUILD_DEPS $PHP_EXTENSION_DEPS \
     && chmod +x /usr/local/bin/composer && composer config -g repo.packagist composer https://packagist.phpcomposer.com && composer config -g secure-http false \
@@ -21,6 +21,7 @@ RUN echo -e "https://mirrors.aliyun.com/alpine/v3.7/main\nhttps://mirrors.aliyun
     # && pecl -vvv install redis-4.0.2 && docker-php-ext-enable redis \
     # && pecl -vvv install memcached-3.0.4 && docker-php-ext-enable memcached \
     # && docker-php-source delete \
+    && cd /tmp && tar -xvf yaml-2.0.2.tgz && cd yaml-2.0.2 && phpize && ./configure && make -j"$(getconf _NPROCESSORS_ONLN)" && make install && docker-php-ext-enable yaml\
     && cd /tmp && tar -xvf apcu-5.1.11.tgz && cd apcu-5.1.11 && phpize && ./configure && make -j"$(getconf _NPROCESSORS_ONLN)" && make install && docker-php-ext-enable apcu\
     && cd /tmp && tar -xvf swoole-4.0.1.tgz && cd swoole-4.0.1 && phpize && ./configure && make -j"$(getconf _NPROCESSORS_ONLN)" && make install && docker-php-ext-enable swoole\
     && cd /tmp && tar -xvf redis-4.0.2.tgz && cd redis-4.0.2 && phpize && ./configure && make -j"$(getconf _NPROCESSORS_ONLN)" && make install && docker-php-ext-enable redis\

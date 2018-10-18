@@ -89,4 +89,5 @@
             xml
             xmlreader
             xmlwriter
+            yaml (v2.0.2)
             zlib
